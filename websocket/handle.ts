@@ -11,10 +11,10 @@ export default {
 
         webSockets.add(socket)
 
-        socket.onclose = e => webSockets.delete(e.target as WebSocket)
+        socket.onclose = () => webSockets.delete(socket)
 
         socket.onmessage = e => {
-            webSockets.forEach(x => x.send(e.data))
+            webSockets.forEach(x => x === socket || x.send(e.data))
             channel.postMessage(e.data)
         }
         
